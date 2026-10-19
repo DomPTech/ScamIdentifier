@@ -1,14 +1,33 @@
+import { Button } from 'expo-router/build/react-navigation';
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
+const keywords: string[] = ["scam", "winning", "money"];
+
+function checkForKeywords(input: string): boolean {
+  for (const word of keywords) {
+    if (input.includes(word)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export default function Index() {
   const [text, setText] = useState('');
+  const [isScam, setIsScam] = useState<boolean>(false);
 
   return (
     <View style={styles.container}>
       <Text>Hello, World.</Text>
 
-      <TextInput style={styles.input} placeholder="Enter message here"/>
+      <TextInput style={styles.input} onChangeText={setText} placeholder="Enter message here"/>
+      <Button
+        color="#007AFF"
+        onPress={() => {
+          setIsScam(checkForKeywords(text));
+        }}>Submit</Button>
+      <Text>Is Scam?: {isScam ? 'True' : 'False'}</Text>
     </View>
   );
 }
