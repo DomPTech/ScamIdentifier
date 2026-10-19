@@ -6,7 +6,7 @@ const keywords: string[] = ["scam", "winning", "money"];
 
 function checkForKeywords(input: string): boolean {
   for (const word of keywords) {
-    if (input.includes(word)) {
+    if (input.toLocaleLowerCase().includes(word)) {
       return true;
     }
   }
@@ -19,9 +19,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <Text>Hello, World.</Text>
-
-      <TextInput style={styles.input} onChangeText={setText} placeholder="Enter message here"/>
+      <TextInput style={styles.input} onChangeText={setText} value={text} placeholder="Enter message here"/>
       <Button
         color="#007AFF"
         onPress={() => {
