@@ -19,7 +19,10 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <TextInput style={styles.input} onChangeText={setText} value={text} placeholder="Enter message here"/>
+      <Text style={styles.heading}>
+        Check a Message
+      </Text>
+      <TextInput style={styles.input} onChangeText={setText} value={text} placeholder="Enter message here" placeholderTextColor="#555"/>
       <Button
         color="#007AFF"
         onPress={() => {
@@ -36,6 +39,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  heading: {
+    marginBottom: 20,
+    fontSize: 18,
+  },
   input: {
     height: 48,
     borderWidth: 1,
@@ -44,6 +51,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     fontSize: 16,
     backgroundColor: '#f9f9f9',
+    marginBottom: 5,
   },
   result: {
     marginTop: 15,
