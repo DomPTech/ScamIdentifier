@@ -3,16 +3,17 @@ import { useMemo, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { ScamClassifier } from '../models/ScamClassifier';
 
-// const keywords: string[] = ["scam", "winning", "money"];
+const keywords: string[] = ["scam", "winning", "money", "prize", "urgent", "click", "link", "bank", "account", "password", "lottery", "transfer", "bitcoin", "crypto"];
 
-// function checkForKeywords(input: string): boolean {
-//   for (const word of keywords) {
-//     if (input.toLocaleLowerCase().includes(word)) {
-//       return true;
-//     }
-//   }
-//   return false;
-// }
+function checkForKeywords(input: string): number {
+  let numKeywords = 0;
+  for (const word of keywords) {
+    if (input.toLocaleLowerCase().includes(word)) {
+      numKeywords++;
+    }
+  }
+  return numKeywords / keywords.length;
+}
 
 export default function Index() {
   const [text, setText] = useState('');
@@ -40,8 +41,11 @@ export default function Index() {
         color="#007AFF"
         onPress={() => {
           const result = classifier.predict(text);
-          setIsScam(result.isScam);
-          setProbability(result.probability);
+          const score = result.score + checkForKeywords(text);
+          // Sigmoid function to convert score to probability
+          const probability = 1 / (1 + Math.exp(-score));
+          setIsScam(probability >= 0.5);
+          setProbability(probability);
         }}
       >
         {!text.trim() ? "Your message is empty" : "Check"}
