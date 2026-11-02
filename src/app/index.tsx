@@ -25,6 +25,9 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Check Before You Act</Text>
+      <Button color="#c32323">
+        Are you talking to them right now?
+      </Button>
       <Text style={styles.heading}>
         Paste a message here
       </Text>
