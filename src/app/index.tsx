@@ -38,7 +38,7 @@ export default function Index() {
         numberOfLines={6}
       />
       <Button
-        color="#007AFF"
+        color="#c32323"
         onPress={() => {
           const result = classifier.predict(text);
           const score = result.score + checkForKeywords(text);
