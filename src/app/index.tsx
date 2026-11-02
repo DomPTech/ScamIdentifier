@@ -1,7 +1,8 @@
 import { Button } from 'expo-router/build/react-navigation';
 import { useMemo, useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { ScamClassifier } from '../models/ScamClassifier';
+import styles from './styles';
 
 const keywords: string[] = ["scam", "winning", "money", "prize", "urgent", "click", "link", "bank", "account", "password", "lottery", "transfer", "bitcoin", "crypto"];
 
@@ -66,47 +67,3 @@ export default function Index() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  heading: {
-    marginBottom: 20,
-    fontSize: 18,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    fontSize: 16,
-    backgroundColor: '#f9f9f9',
-    marginBottom: 20,
-    width: 300,
-  },
-  resultScam: {
-    marginTop: 15,
-    fontSize: 14,
-    color: 'red',
-  },
-  resultSafe: {
-    marginTop: 15,
-    fontSize: 14,
-    color: 'orange',
-  },
-  probability: {
-    marginTop: 5,
-    fontSize: 12,
-    color: '#777',
-  },
-  title: {
-    fontSize: 32, 
-    fontWeight: 'bold',
-    color: '#000000',
-    marginBottom: 10,
-  },
-});
