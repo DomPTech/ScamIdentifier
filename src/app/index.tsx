@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { Text, TextInput, View } from "react-native";
 import { ScamClassifier } from '../models/ScamClassifier';
 import styles from './styles';
+import TalkingToThemButton from './Components/TalkingToThemButton';
 
 const keywords: string[] = ["scam", "winning", "money", "prize", "urgent", "click", "link", "bank", "account", "password", "lottery", "transfer", "bitcoin", "crypto"];
 
@@ -26,9 +27,7 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Check Before You Act</Text>
-      <Button color="#c32323">
-        Are you talking to them right now?
-      </Button>
+      <TalkingToThemButton/>
       <Text style={styles.heading}>
         Paste a message here
       </Text>

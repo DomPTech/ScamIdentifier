@@ -5,9 +5,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    padding: 10,
   },
   heading: {
-    marginBottom: 20,
+    marginTop: 15,
+    marginBottom: 15,
     fontSize: 18,
   },
   input: {
