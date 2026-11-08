@@ -1,9 +1,9 @@
-import { Button } from 'expo-router/build/react-navigation';
 import { useMemo, useState } from 'react';
-import { Text, TextInput, View } from "react-native";
+import { Modal, Pressable, Text, TextInput, View } from "react-native";
 import { ScamClassifier } from '../models/ScamClassifier';
-import styles from './styles';
 import TalkingToThemButton from './Components/TalkingToThemButton';
+import TrustedContactsView from './Components/TrustedContactsView';
+import styles from './styles';
 
 const keywords: string[] = ["scam", "winning", "money", "prize", "urgent", "click", "link", "bank", "account", "password", "lottery", "transfer", "bitcoin", "crypto"];
 
@@ -21,6 +21,7 @@ export default function Index() {
   const [text, setText] = useState('');
   const [isScam, setIsScam] = useState<boolean | null>(null);
   const [probability, setProbability] = useState<number | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const classifier = useMemo(() => ScamClassifier.fromBundled(), []);
 
@@ -28,21 +29,24 @@ export default function Index() {
     <View style={styles.container}>
       <Text style={styles.title}>Check Before You Act</Text>
       <TalkingToThemButton/>
+    
+      <Modal
+        visible={modalVisible}
+        animationType='fade'
+        transparent={true}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TrustedContactsView message={text} onClose={() => setModalVisible(false)} />
+      </Modal>
+
       <Text style={styles.heading}>
         Paste a message here
       </Text>
       <TextInput
-        style={styles.input}
-        onChangeText={setText}
-        value={text}
-        placeholder="Enter message here"
-        placeholderTextColor="#555"
-        multiline={true}
-        numberOfLines={6}
-      />
-      <Button
-        color="#c32323"
-        onPress={() => {
+        style={[styles.input, styles.mainInput]}
+        onChangeText={ (text) => {
+          setText(text);
+
           const result = classifier.predict(text);
           const score = result.score + checkForKeywords(text);
           // Sigmoid function to convert score to probability
@@ -50,18 +54,28 @@ export default function Index() {
           setIsScam(probability >= 0.5);
           setProbability(probability);
         }}
-      >
-        {!text.trim() ? "Your message is empty" : "Check"}
-      </Button>
+        value={text}
+        placeholder="Enter message here"
+        placeholderTextColor="#555"
+        multiline={true}
+        numberOfLines={6}
+      />
+
       {isScam !== null && (
         <Text style={isScam ? styles.resultScam : styles.resultSafe}>{
           isScam ? 'This is very likely a scam. Please check with someone you trust.' : 'This may not be a scam, but proceed with caution.'
         }</Text>
       )}
       {probability !== null && (
-        <Text style={styles.probability}>
-          Confidence: {(probability * 100).toFixed(1)}%
-        </Text>
+        <View style={{alignItems: 'center', padding: 10}}>
+          <Text>
+            Confidence: {(probability * 100).toFixed(1)}%
+          </Text>
+
+          <Pressable style={styles.contactsButton} onPress={() => setModalVisible(true)}>
+            <Text style={styles.contactsButtonText}>Ask Trusted Contacts</Text>
+          </Pressable>
+        </View>
       )}
     </View>
   );
