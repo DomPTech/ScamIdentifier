@@ -85,6 +85,19 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  sheet: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    maxHeight: '80%',
+    maxWidth: '80%',
+    marginHorizontal: '10%',
+    marginVertical: '10%',
+  },
 });
 
 export default styles;
