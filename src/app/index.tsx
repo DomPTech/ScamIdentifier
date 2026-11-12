@@ -21,7 +21,7 @@ export default function Index() {
   const [text, setText] = useState('');
   const [isScam, setIsScam] = useState<boolean | null>(null);
   const [probability, setProbability] = useState<number | null>(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [contactsModalVisible, setContactsModalVisible] = useState(false);
 
   const classifier = useMemo(() => ScamClassifier.fromBundled(), []);
 
@@ -31,12 +31,12 @@ export default function Index() {
       <TalkingToThemButton/>
     
       <Modal
-        visible={modalVisible}
+        visible={contactsModalVisible}
         animationType='fade'
         transparent={true}
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={() => setContactsModalVisible(false)}
       >
-        <TrustedContactsView message={text} onClose={() => setModalVisible(false)} />
+        <TrustedContactsView message={text} onClose={() => setContactsModalVisible(false)} />
       </Modal>
 
       <Text style={styles.heading}>
@@ -72,7 +72,7 @@ export default function Index() {
             Confidence: {(probability * 100).toFixed(1)}%
           </Text>
 
-          <Pressable style={styles.contactsButton} onPress={() => setModalVisible(true)}>
+          <Pressable style={styles.contactsButton} onPress={() => setContactsModalVisible(true)}>
             <Text style={styles.contactsButtonText}>Ask Trusted Contacts</Text>
           </Pressable>
         </View>
