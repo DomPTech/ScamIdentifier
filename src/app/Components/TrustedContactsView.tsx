@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, FlatList, Linking, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { addContact, getContacts, MAX_CONTACTS, removeContact, TrustedContact } from '../../storage/trustedContacts';
-import globalStyles from '../styles';
+import globalStyles from '../../styles';
 
 interface Props {
   message: string;

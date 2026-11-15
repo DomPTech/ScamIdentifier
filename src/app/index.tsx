@@ -3,7 +3,7 @@ import { Modal, Pressable, Text, TextInput, View } from "react-native";
 import { ScamClassifier } from '../models/ScamClassifier';
 import TalkingToThemButton from './Components/TalkingToThemButton';
 import TrustedContactsView from './Components/TrustedContactsView';
-import styles from './styles';
+import styles from '../styles';
 
 const keywords: string[] = ["scam", "winning", "money", "prize", "urgent", "click", "link", "bank", "account", "password", "lottery", "transfer", "bitcoin", "crypto"];
 
