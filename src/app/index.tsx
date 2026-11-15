@@ -47,12 +47,17 @@ export default function Index() {
         onChangeText={ (text) => {
           setText(text);
 
-          const result = classifier.predict(text);
-          const score = result.score + checkForKeywords(text);
-          // Sigmoid function to convert score to probability
-          const probability = 1 / (1 + Math.exp(-score));
-          setIsScam(probability >= 0.5);
-          setProbability(probability);
+          if (text.trim().length !== 0) {
+            const result = classifier.predict(text);
+            const score = result.score + checkForKeywords(text);
+            // Sigmoid function to convert score to probability
+            const probability = 1 / (1 + Math.exp(-score));
+            setIsScam(probability >= 0.5);
+            setProbability(probability);
+          } else {
+            setIsScam(null)
+            setProbability(null);
+          }
         }}
         value={text}
         placeholder="Enter message here"
