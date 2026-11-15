@@ -4,6 +4,7 @@ import { ScamClassifier } from '../models/ScamClassifier';
 import TalkingToThemButton from './Components/TalkingToThemButton';
 import TrustedContactsView from './Components/TrustedContactsView';
 import styles from './styles';
+import TalkingToThemView from './Components/TalkingToThemView';
 
 const keywords: string[] = ["scam", "winning", "money", "prize", "urgent", "click", "link", "bank", "account", "password", "lottery", "transfer", "bitcoin", "crypto"];
 
@@ -22,13 +23,14 @@ export default function Index() {
   const [isScam, setIsScam] = useState<boolean | null>(null);
   const [probability, setProbability] = useState<number | null>(null);
   const [contactsModalVisible, setContactsModalVisible] = useState(false);
+  const [talkingModalVisible, setTalkingModalVisible] = useState(false);
 
   const classifier = useMemo(() => ScamClassifier.fromBundled(), []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Check Before You Act</Text>
-      <TalkingToThemButton/>
+      <TalkingToThemButton onPress={() => setTalkingModalVisible(true)}/>
     
       <Modal
         visible={contactsModalVisible}
@@ -36,7 +38,16 @@ export default function Index() {
         transparent={true}
         onRequestClose={() => setContactsModalVisible(false)}
       >
-        <TrustedContactsView message={text} onClose={() => setContactsModalVisible(false)} />
+        <TrustedContactsView message={text} onClose={() => setContactsModalVisible(false)}/>
+      </Modal>
+
+      <Modal
+        visible={talkingModalVisible}
+        animationType='fade'
+        transparent={true}
+        onRequestClose={() => setTalkingModalVisible(false)}
+      >
+        <TalkingToThemView onClose={() => setTalkingModalVisible(false)} />
       </Modal>
 
       <Text style={styles.heading}>

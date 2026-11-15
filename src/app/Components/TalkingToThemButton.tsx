@@ -1,13 +1,19 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-const TalkingToThemButton = () => {
+interface Props {
+    onPress: () => void;
+}
+
+const TalkingToThemButton = ({onPress}: Props) => {
     return (
         <View style={styles.card}>
             <Text style={styles.text}>
                 Are you talking to them right now?
             </Text>
             <Pressable
-            style={styles.button}>
+                style={styles.button}
+                onPress={onPress}
+            >
                 <Text style={styles.buttonText}>I'm talking to them now</Text>
             </Pressable> 
         </View>
