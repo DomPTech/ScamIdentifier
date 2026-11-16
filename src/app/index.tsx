@@ -4,6 +4,7 @@ import { ScamClassifier } from '../models/ScamClassifier';
 import TalkingToThemButton from './Components/TalkingToThemButton';
 import TrustedContactsView from './Components/TrustedContactsView';
 import styles from '../styles';
+import TalkingToThemView from './Components/TalkingToThemView';
 
 const keywords: string[] = ["scam", "winning", "money", "prize", "urgent", "click", "link", "bank", "account", "password", "lottery", "transfer", "bitcoin", "crypto"];
 
@@ -21,22 +22,32 @@ export default function Index() {
   const [text, setText] = useState('');
   const [isScam, setIsScam] = useState<boolean | null>(null);
   const [probability, setProbability] = useState<number | null>(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [contactsModalVisible, setContactsModalVisible] = useState(false);
+  const [talkingModalVisible, setTalkingModalVisible] = useState(false);
 
   const classifier = useMemo(() => ScamClassifier.fromBundled(), []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Check Before You Act</Text>
-      <TalkingToThemButton/>
+      <TalkingToThemButton onPress={() => setTalkingModalVisible(true)}/>
     
       <Modal
-        visible={modalVisible}
+        visible={contactsModalVisible}
         animationType='fade'
         transparent={true}
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={() => setContactsModalVisible(false)}
       >
-        <TrustedContactsView message={text} onClose={() => setModalVisible(false)} />
+        <TrustedContactsView message={text} onClose={() => setContactsModalVisible(false)}/>
+      </Modal>
+
+      <Modal
+        visible={talkingModalVisible}
+        animationType='fade'
+        transparent={true}
+        onRequestClose={() => setTalkingModalVisible(false)}
+      >
+        <TalkingToThemView onClose={() => setTalkingModalVisible(false)} />
       </Modal>
 
       <Text style={styles.heading}>
@@ -77,7 +88,7 @@ export default function Index() {
             Confidence: {(probability * 100).toFixed(1)}%
           </Text>
 
-          <Pressable style={styles.contactsButton} onPress={() => setModalVisible(true)}>
+          <Pressable style={styles.contactsButton} onPress={() => setContactsModalVisible(true)}>
             <Text style={styles.contactsButtonText}>Ask Trusted Contacts</Text>
           </Pressable>
         </View>

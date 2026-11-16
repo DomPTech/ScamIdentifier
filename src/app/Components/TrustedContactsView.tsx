@@ -62,8 +62,8 @@ export default function TrustedContactsView({ message, onClose }: Props) {
   }
 
   return (
-    <View style={styles.overlay}>
-      <View style={styles.sheet}>
+    <View style={globalStyles.overlay}>
+      <View style={globalStyles.sheet}>
         <View style={styles.header}>
           <Text style={[globalStyles.heading, styles.title]}>
             Click a Trusted Contact to ask about your Message
@@ -130,19 +130,6 @@ export default function TrustedContactsView({ message, onClose }: Props) {
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
-  },
-  sheet: {
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    maxHeight: '80%',
-    maxWidth: '80%',
-    marginHorizontal: '10%',
-    marginVertical: '10%',
-  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
