@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import globalStyles from '../styles';
+import globalStyles from '../../styles';
 
 interface Props {
     onClose: () => void;
