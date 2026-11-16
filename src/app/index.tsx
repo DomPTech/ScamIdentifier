@@ -3,7 +3,7 @@ import { Modal, Pressable, Text, TextInput, View } from "react-native";
 import { ScamClassifier } from '../models/ScamClassifier';
 import TalkingToThemButton from './Components/TalkingToThemButton';
 import TrustedContactsView from './Components/TrustedContactsView';
-import styles from './styles';
+import styles from '../styles';
 import TalkingToThemView from './Components/TalkingToThemView';
 
 const keywords: string[] = ["scam", "winning", "money", "prize", "urgent", "click", "link", "bank", "account", "password", "lottery", "transfer", "bitcoin", "crypto"];
@@ -58,12 +58,17 @@ export default function Index() {
         onChangeText={ (text) => {
           setText(text);
 
-          const result = classifier.predict(text);
-          const score = result.score + checkForKeywords(text);
-          // Sigmoid function to convert score to probability
-          const probability = 1 / (1 + Math.exp(-score));
-          setIsScam(probability >= 0.5);
-          setProbability(probability);
+          if (text.trim().length !== 0) {
+            const result = classifier.predict(text);
+            const score = result.score + checkForKeywords(text);
+            // Sigmoid function to convert score to probability
+            const probability = 1 / (1 + Math.exp(-score));
+            setIsScam(probability >= 0.5);
+            setProbability(probability);
+          } else {
+            setIsScam(null)
+            setProbability(null);
+          }
         }}
         value={text}
         placeholder="Enter message here"
