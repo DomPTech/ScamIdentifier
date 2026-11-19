@@ -1,4 +1,5 @@
-import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface Props {
     onPress: () => void;
@@ -7,8 +8,17 @@ interface Props {
 const PHONE_WIDTH_BREAKPOINT = 768;
 
 const TalkingToThemButton = ({onPress}: Props) => {
-    const { width } = useWindowDimensions();
-    const isNarrow = width < PHONE_WIDTH_BREAKPOINT;
+    const [isNarrow, setIsNarrow] = useState(false);
+
+    useEffect(() => {
+        const updateIsNarrow = () => {
+            setIsNarrow(Dimensions.get('window').width < PHONE_WIDTH_BREAKPOINT);
+        };
+        updateIsNarrow();
+        const subscription = Dimensions.addEventListener('change', updateIsNarrow);
+        return () => subscription.remove();
+    }, []);
+
     return (
         <View style={[styles.card, isNarrow && styles.cardVertical]}>
             <Text style={styles.text}>

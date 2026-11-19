@@ -1,8 +1,10 @@
 import * as Clipboard from 'expo-clipboard';
 import { useCallback, useMemo, useState } from 'react';
-import { Alert, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
+import { useSpeechToText } from '../hooks/useSpeechToText';
 import { ScamClassifier } from '../models/ScamClassifier';
 import globalStyles from '../styles';
+import SpeechToTextButton from './Components/SpeechToTextButton';
 import TalkingToThemButton from './Components/TalkingToThemButton';
 import TalkingToThemView from './Components/TalkingToThemView';
 import TrustedContactsView from './Components/TrustedContactsView';
@@ -44,6 +46,10 @@ export default function Index() {
     }
   }, [classifier]);
 
+  const speech = useSpeechToText(handleTextChange);
+  const { width } = useWindowDimensions();
+  const isNarrow = width < 480;
+
   const handlePaste = async () => {
     try {
       const copiedText = await Clipboard.getStringAsync();
@@ -62,7 +68,7 @@ export default function Index() {
   };
 
   return (
-    <View style={globalStyles.container}>
+    <ScrollView style={{flex: 1}} contentContainerStyle={globalStyles.container} keyboardShouldPersistTaps="handled">
       <Text style={globalStyles.title}>Check Before You Act</Text>
       <TalkingToThemButton onPress={() => setTalkingModalVisible(true)}/>
     
@@ -84,9 +90,25 @@ export default function Index() {
         <TalkingToThemView onClose={() => setTalkingModalVisible(false)} />
       </Modal>
 
-      <Pressable style={styles.pasteButton} onPress={handlePaste}>
-        <Text style={styles.pasteButtonText}>Paste Copied Message</Text>
-      </Pressable>
+      <Text style={[globalStyles.heading, { marginTop: 20, marginLeft: 20, marginRight: 20 }]}>Check a suspicious text, email, social message, phone number, link description, or voicemail summary</Text>
+
+      <View style={[styles.actionRow, isNarrow && styles.actionRowNarrow]}>
+        {speech.supported && (
+          <SpeechToTextButton
+            status={speech.status}
+            style={styles.actionButton}
+            textStyle={styles.actionButtonText}
+            onStart={speech.start}
+            onStop={speech.stop}
+          />
+        )}
+        <Pressable style={[styles.actionButton, styles.outlineButton]} onPress={handlePaste}>
+          <Text style={[styles.actionButtonText, styles.outlineButtonText]}>Paste Copied Message</Text>
+        </Pressable>
+      </View>
+      {speech.error !== null && (
+        <Text style={styles.speechError}>{speech.error}</Text>
+      )}
 
       <TextInput
         style={[globalStyles.input, globalStyles.mainInput]}
@@ -120,27 +142,48 @@ export default function Index() {
           </Pressable>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  pasteButton: {
+  actionRow: {
+    flexDirection: 'row',
+    columnGap: 10,
+    width: '100%',
+    maxWidth: 520,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  actionRowNarrow: {
+    flexDirection: 'column',
+    rowGap: 10,
+  },
+  actionButton: {
     backgroundColor: '#0056b3',
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
-    marginBottom: 10,
-    width: 300,
+    flex: 1,
+    minHeight: 64,
     elevation: 3,
   },
-  pasteButtonText: {
+  actionButtonText: {
     color: '#ffffff',
     fontSize: 19,
     fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  outlineButton: {
+    backgroundColor: '#ffffff',
+    borderWidth: 2,
+    borderColor: '#0056b3',
+    elevation: 0,
+  },
+  outlineButtonText: {
+    color: '#0056b3',
   },
   clearButton: {
     marginTop: 6,
@@ -154,5 +197,12 @@ const styles = StyleSheet.create({
     color: '#475569',
     fontSize: 15,
     fontWeight: '600',
+  },
+  speechError: {
+    color: '#c32323',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 10,
   },
 });

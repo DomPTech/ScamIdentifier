@@ -33,7 +33,14 @@
           "imageWidth": 76
         }
       ],
-      ["expo-ai-kit", { "vision" : true }]
+      ["expo-ai-kit", { "vision" : true }],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Allow $(PRODUCT_NAME) to use the microphone so you can speak your message instead of typing.",
+          "speechRecognitionPermission": "Allow $(PRODUCT_NAME) to use speech recognition so you can speak your message instead of typing."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
