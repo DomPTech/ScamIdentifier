@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import globalStyles from '../../styles';
+import { VStack } from '../../components/Stack';
 
 interface Props {
     onClose: () => void;
@@ -9,23 +10,21 @@ export default function TalkingToThemView({onClose}: Props) {
     return (
         <View style={globalStyles.overlay}>
             <View style={globalStyles.sheet}>
-                <View style={{padding: 25}}>
+                <VStack spacing={0} style={{padding: 25}}>
                     <Text style={{fontSize: 12, fontFamily: 'arial', color: '#c32323', fontWeight: 'bold'}} >LIVE CALL SAFETY</Text>
                     <Text style={styles.header}>Pause the conversation now.</Text>
-                    <View>
-                        <Text style={{color: '#c32323', fontWeight: 'bold', marginLeft: 12}}>Do not send money, share a code, install software, allow remote access, or agree to meet anyone.</Text>
-                    </View>
-                    <View style={{padding: 15}}>
+                    <Text style={{color: '#c32323', fontWeight: 'bold', marginLeft: 12}}>Do not send money, share a code, install software, allow remote access, or agree to meet anyone.</Text>
+                    <VStack spacing={0} style={{padding: 15}}>
                         <Text style={styles.mainText}>End the call or stop replying.</Text>
                         <Text style={styles.mainText}>Do not click links or call numbers they supplied.</Text>
                         <Text style={styles.mainText}>Contact the organization using a number you independently verify.</Text>
                         <Text style={styles.mainText}>Tell someone you trust before taking any action.</Text>
                         <Text style={styles.mainText}>If someone is coming to your home or you feel threatened, call 911.</Text>
-                    </View>
+                    </VStack>
                     <Pressable style={styles.button} onPress={onClose}>
                         <Text style={styles.buttonText}>I have stopped the conversation</Text>
                     </Pressable>
-                </View>
+                </VStack>
             </View>
         </View>
     );

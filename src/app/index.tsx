@@ -1,9 +1,10 @@
 import * as Clipboard from 'expo-clipboard';
 import { useCallback, useMemo, useState } from 'react';
-import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from "react-native";
+import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions } from "react-native";
 import { useSpeechToText } from '../hooks/useSpeechToText';
 import { ScamClassifier } from '../models/ScamClassifier';
 import globalStyles from '../styles';
+import { HStack, VStack } from '../components/Stack';
 import SpeechToTextButton from './Components/SpeechToTextButton';
 import TalkingToThemButton from './Components/TalkingToThemButton';
 import TalkingToThemView from './Components/TalkingToThemView';
@@ -92,20 +93,37 @@ export default function Index() {
 
       <Text style={[globalStyles.heading, { marginTop: 20, marginLeft: 20, marginRight: 20 }]}>Check a suspicious text, email, social message, phone number, link description, or voicemail summary</Text>
 
-      <View style={[styles.actionRow, isNarrow && styles.actionRowNarrow]}>
-        {speech.supported && (
-          <SpeechToTextButton
-            status={speech.status}
-            style={styles.actionButton}
-            textStyle={styles.actionButtonText}
-            onStart={speech.start}
-            onStop={speech.stop}
-          />
-        )}
-        <Pressable style={[styles.actionButton, styles.outlineButton]} onPress={handlePaste}>
-          <Text style={[styles.actionButtonText, styles.outlineButtonText]}>Paste Copied Message</Text>
-        </Pressable>
-      </View>
+      {isNarrow ? (
+        <VStack spacing={10} style={styles.actionGroup}>
+          {speech.supported && (
+            <SpeechToTextButton
+              status={speech.status}
+              style={styles.actionButton}
+              textStyle={styles.actionButtonText}
+              onStart={speech.start}
+              onStop={speech.stop}
+            />
+          )}
+          <Pressable style={[styles.actionButton, styles.outlineButton]} onPress={handlePaste}>
+            <Text style={[styles.actionButtonText, styles.outlineButtonText]}>Paste Copied Message</Text>
+          </Pressable>
+        </VStack>
+      ) : (
+        <HStack spacing={10} style={styles.actionGroup}>
+          {speech.supported && (
+            <SpeechToTextButton
+              status={speech.status}
+              style={styles.actionButton}
+              textStyle={styles.actionButtonText}
+              onStart={speech.start}
+              onStop={speech.stop}
+            />
+          )}
+          <Pressable style={[styles.actionButton, styles.outlineButton]} onPress={handlePaste}>
+            <Text style={[styles.actionButtonText, styles.outlineButtonText]}>Paste Copied Message</Text>
+          </Pressable>
+        </HStack>
+      )}
       {speech.error !== null && (
         <Text style={styles.speechError}>{speech.error}</Text>
       )}
@@ -132,7 +150,7 @@ export default function Index() {
         }</Text>
       )}
       {probability !== null && (
-        <View style={{alignItems: 'center', padding: 10}}>
+        <VStack align="center" spacing={0} style={{ padding: 10 }}>
           <Text>
             Confidence: {(probability * 100).toFixed(1)}%
           </Text>
@@ -140,24 +158,18 @@ export default function Index() {
           <Pressable style={globalStyles.contactsButton} onPress={() => setContactsModalVisible(true)}>
             <Text style={globalStyles.contactsButtonText}>Ask Trusted Contacts</Text>
           </Pressable>
-        </View>
+        </VStack>
       )}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  actionRow: {
-    flexDirection: 'row',
-    columnGap: 10,
+  actionGroup: {
     width: '100%',
     maxWidth: 520,
     marginTop: 10,
     marginBottom: 10,
-  },
-  actionRowNarrow: {
-    flexDirection: 'column',
-    rowGap: 10,
   },
   actionButton: {
     backgroundColor: '#0056b3',

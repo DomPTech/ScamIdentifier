@@ -1,14 +1,17 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  // Layout
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
   },
+
+  // Typography
   title: {
-    fontSize: 32, 
+    fontSize: 32,
     fontWeight: 'bold',
     color: '#000000',
     marginBottom: 10,
@@ -26,6 +29,16 @@ const styles = StyleSheet.create({
     color: '#111',
     marginBottom: 12,
   },
+  body: {
+    fontSize: 16,
+    color: '#475569',
+  },
+  caption: {
+    fontSize: 12,
+    color: '#777',
+  },
+
+  // other components
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
@@ -39,7 +52,10 @@ const styles = StyleSheet.create({
   mainInput: {
     paddingVertical: 12,
     marginBottom: 20,
-    width: 300,
+    width: '100%',
+    maxWidth: 520,
+    minHeight: 140,
+    textAlignVertical: 'top',
   },
   primaryButton: {
     backgroundColor: '#c32323',
@@ -55,6 +71,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
+
   resultScam: {
     marginTop: 15,
     fontSize: 20,
@@ -67,11 +84,7 @@ const styles = StyleSheet.create({
     color: 'orange',
     fontWeight: 'bold',
   },
-  probability: {
-    marginTop: 5,
-    fontSize: 12,
-    color: '#777',
-  },
+
   contactsButton: {
     marginTop: 10,
     paddingVertical: 10,
@@ -85,6 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
+
   overlay: {
     flex: 1,
     justifyContent: 'center',

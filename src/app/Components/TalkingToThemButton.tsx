@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text } from 'react-native';
+import { HStack, VStack } from '../../components/Stack';
 
 interface Props {
     onPress: () => void;
@@ -19,8 +20,8 @@ const TalkingToThemButton = ({onPress}: Props) => {
         return () => subscription.remove();
     }, []);
 
-    return (
-        <View style={[styles.card, isNarrow && styles.cardVertical]}>
+    return isNarrow ? (
+        <VStack spacing={10} style={styles.card}>
             <Text style={styles.text}>
                 Are you talking to them right now?
             </Text>
@@ -29,25 +30,31 @@ const TalkingToThemButton = ({onPress}: Props) => {
                 onPress={onPress}
             >
                 <Text style={styles.buttonText}>I'm talking to them now</Text>
-            </Pressable> 
-        </View>
+            </Pressable>
+        </VStack>
+    ) : (
+        <HStack align="center" spacing={50} style={styles.card}>
+            <Text style={styles.text}>
+                Are you talking to them right now?
+            </Text>
+            <Pressable
+                style={styles.button}
+                onPress={onPress}
+            >
+                <Text style={styles.buttonText}>I'm talking to them now</Text>
+            </Pressable>
+        </HStack>
     );
 };
 
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#ebd3d3', 
-        flexDirection: 'row',
         padding: 14,
         borderRadius: 20,
         borderLeftWidth: 6,
         borderLeftColor: '#df3c3c',
-        columnGap: 50,
         maxWidth: "90%",
-    },
-    cardVertical: {
-        flexDirection: 'column',
-        rowGap: 10,
     },
     text: {
         color: '#541c18',

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Alert, FlatList, Linking, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { addContact, getContacts, MAX_CONTACTS, removeContact, TrustedContact } from '../../storage/trustedContacts';
 import globalStyles from '../../styles';
+import { HStack, VStack } from '../../components/Stack';
 
 interface Props {
   message: string;
@@ -64,14 +65,14 @@ export default function TrustedContactsView({ message, onClose }: Props) {
   return (
     <View style={globalStyles.overlay}>
       <View style={globalStyles.sheet}>
-        <View style={styles.header}>
+        <HStack align="center" justify="space-between" style={styles.header}>
           <Text style={[globalStyles.heading, styles.title]}>
             Click a Trusted Contact to ask about your Message
           </Text>
           <Pressable onPress={onClose} hitSlop={12}>
             <Text style={styles.closeButton}>✕</Text>
           </Pressable>
-        </View>
+        </HStack>
 
         <FlatList
           data={contacts}
@@ -79,20 +80,22 @@ export default function TrustedContactsView({ message, onClose }: Props) {
           ListEmptyComponent={<Text style={styles.empty}>No trusted contacts yet.</Text>}
           renderItem={({ item }) => (
             <Pressable style={styles.row} onPress={() => openMessagingApp(item.phone, formattedMessage(message))}>
-              <View style={styles.rowText}>
-                <Text style={styles.contactName}>{item.name}</Text>
-                <Text style={styles.contactPhone}>{item.phone}</Text>
-              </View>
-              <Pressable onPress={() => handleDelete(item.id)} hitSlop={12}>
-                <Text style={styles.delete}>Delete</Text>
-              </Pressable>
+              <HStack align="center" justify="space-between" style={{ flex: 1 }}>
+                <VStack style={styles.rowText}>
+                  <Text style={styles.contactName}>{item.name}</Text>
+                  <Text style={styles.contactPhone}>{item.phone}</Text>
+                </VStack>
+                <Pressable onPress={() => handleDelete(item.id)} hitSlop={12}>
+                  <Text style={styles.delete}>Delete</Text>
+                </Pressable>
+              </HStack>
             </Pressable>
           )}
           style={styles.list}
         />
 
         {contacts.length < MAX_CONTACTS && (
-          <View style={styles.form}>
+          <VStack spacing={0} style={styles.form}>
             <Text style={globalStyles.subheading}>Add a contact</Text>
             <TextInput
               style={globalStyles.input}
@@ -119,7 +122,7 @@ export default function TrustedContactsView({ message, onClose }: Props) {
             >
               <Text style={globalStyles.primaryButtonText}>Save</Text>
             </Pressable>
-          </View>
+          </VStack>
         )}
         {contacts.length >= MAX_CONTACTS && (
           <Text style={styles.limitNote}>You've reached the {MAX_CONTACTS}-contact limit.</Text>
@@ -131,9 +134,6 @@ export default function TrustedContactsView({ message, onClose }: Props) {
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingTop: 24,
     paddingBottom: 16,
@@ -150,8 +150,6 @@ const styles = StyleSheet.create({
   list: { flexGrow: 0 },
   empty: { textAlign: 'center', color: '#888', marginTop: 40, marginBottom: 40, fontSize: 15 },
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
